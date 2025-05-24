@@ -1,12 +1,14 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.13.35931.197
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.36107.64
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TP-Web-Promo-WEB", "TP-Web-Promo-WEB\TP-Web-Promo-WEB.csproj", "{A66BDD9D-6317-4EA3-9F8F-2E35B43A6B7C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dominio", "Dominio\Dominio.csproj", "{D8A9C114-79DA-4846-A0CA-F3B4F784853B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Negocio", "Negocio\Negocio.csproj", "{ED5EC50B-1F41-49AC-A5F7-BB8D38EBB9EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIs", "APIs\APIs.csproj", "{326A907F-A740-448B-9D67-FA8D40435BD7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +28,10 @@ Global
 		{ED5EC50B-1F41-49AC-A5F7-BB8D38EBB9EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED5EC50B-1F41-49AC-A5F7-BB8D38EBB9EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED5EC50B-1F41-49AC-A5F7-BB8D38EBB9EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{326A907F-A740-448B-9D67-FA8D40435BD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{326A907F-A740-448B-9D67-FA8D40435BD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{326A907F-A740-448B-9D67-FA8D40435BD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{326A907F-A740-448B-9D67-FA8D40435BD7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
