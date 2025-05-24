@@ -1,0 +1,11 @@
+﻿.contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.badge {
+    font-size: 1.5em;
+}
+a{
+    margin-top:2em;
+}
