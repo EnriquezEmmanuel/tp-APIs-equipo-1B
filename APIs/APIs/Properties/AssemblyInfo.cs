@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 // La información general sobre un ensamblado se controla mediante lo siguiente
 // conjunto de atributos. Cambie los valores de estos atributos para modificar la información
-// asociada con un ensamblado.
+// asociada a un ensamblado.
 [assembly: AssemblyTitle("APIs")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
@@ -16,11 +16,11 @@ using System.Runtime.InteropServices;
 
 // Si configura ComVisible como falso, los tipos de este ensamblado no se hacen visibles
 // para componentes COM.  Si necesita acceder a un tipo de este ensamblado desde
-// COM, establezca el atributo ComVisible en True en este tipo.
+// COM, establezca el atributo ComVisible en true en este tipo.
 [assembly: ComVisible(false)]
 
-// El siguiente GUID sirve como ID de typelib si este proyecto se expone a COM
-[assembly: Guid("145c7175-d842-44bd-997b-578ec7b0fa2f")]
+// El siguiente GUID es para el ID. typelib cuando este proyecto esté expuesto a COM
+[assembly: Guid("1271ab65-c624-4e5e-92b0-0cb73f33e111")]
 
 // La información de versión de un ensamblado consta de los siguientes cuatro valores:
 //

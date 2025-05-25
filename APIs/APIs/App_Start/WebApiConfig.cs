@@ -9,9 +9,9 @@ namespace APIs
     {
         public static void Register(HttpConfiguration config)
         {
-            // Configuración y servicios de API web
+            // Configuración y servicios de Web API
 
-            // Rutas de API web
+            // Rutas de Web API
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(

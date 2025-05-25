@@ -6,16 +6,17 @@ using System.Net.Http;
 using System.Web.Http;
 using Dominio;
 using Negocio;
-using APIs.Models;
 
 namespace APIs.Controllers
 {
     public class ArticuloController : ApiController
     {
         // GET: api/Articulo
-        public IEnumerable<string> Get()
+        public IEnumerable<Articulo> Get()
         {
-            return new string[] { "value1", "value2" };
+            ArticuloNegocio negocio = new ArticuloNegocio();
+
+            return negocio.lista();
         }
 
         // GET: api/Articulo/5
