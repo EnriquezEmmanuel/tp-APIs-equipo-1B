@@ -40,15 +40,8 @@ namespace APIs.Controllers
             nuevo.Marca = new Marca { Id = articuloDto.IdMarca };
             nuevo.Categoria = new Categoria { Id = articuloDto.IdCategoria };
             nuevo.Precio = articuloDto.Precio;
-            foreach (var imagen in articuloDto.Imagenes)
-            {
-                nuevo.Imagenes.Add(new Imagen
-                {
-                    Id = imagen.Id,
-                    Url = imagen.Url
-                });
-            }
-
+            nuevo.Imagenes = articuloDto.Imagenes;
+            
             negocio.agregar(nuevo);
 
         }
