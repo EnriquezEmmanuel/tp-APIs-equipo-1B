@@ -21,7 +21,7 @@ namespace Negocio
 
         public AccesoDatos()
         {
-            conexion = new SqlConnection("server=.\\SQLEXPRESS; database=PROMOS_DB; Integrated Security=true");
+            conexion = new SqlConnection("server=.\\SQLEXPRESS01; database=PROMOS_DB; Integrated Security=true");
             comando = new SqlCommand();
         }
         public void setearConsulta(string consulta)

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using APIs.Models;
 using Dominio;
 using Negocio;
 //using APIs.Models;
@@ -27,8 +28,29 @@ namespace APIs.Controllers
         }
 
         // POST: api/Articulo
-        public void Post([FromBody]string value)
+        public void Post([FromBody] ArticuloDto articuloDto)
         {
+            ArticuloNegocio negocio = new ArticuloNegocio();
+            Articulo nuevo = new Articulo();
+
+
+            nuevo.Codigo = articuloDto.Codigo;
+            nuevo.Nombre = articuloDto.Nombre;
+            nuevo.Descripcion = articuloDto.Descripcion;
+            nuevo.Marca = new Marca { Id = articuloDto.IdMarca };
+            nuevo.Categoria = new Categoria { Id = articuloDto.IdCategoria };
+            nuevo.Precio = articuloDto.Precio;
+            foreach (var imagen in articuloDto.Imagenes)
+            {
+                nuevo.Imagenes.Add(new Imagen
+                {
+                    Id = imagen.Id,
+                    Url = imagen.Url
+                });
+            }
+
+            negocio.agregar(nuevo);
+
         }
 
         // PUT: api/Articulo/5

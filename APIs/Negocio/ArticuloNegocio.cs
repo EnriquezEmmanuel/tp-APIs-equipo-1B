@@ -49,13 +49,17 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-        public void AgregarArticulo(Articulo nuevo)
+        public void agregar(Articulo nuevo)
         {
             AccesoDatos datos = new AccesoDatos();
 
             try
             {
-                datos.setearConsulta("BEGIN TRANSACTION INSERT ARTICULOS(Codigo, Nombre, Descripcion, IdMarca, IdCategoria, Precio) OUTPUT INSERTED.ID VALUES (@Codigo, @Nombre, @Descripcion, @IdMarca, @IdCategoria, @Precio) DECLARE @ID INT= SCOPE_IDENTITY() INSERT INTO IMAGENES(IdArticulo, ImagenUrl) VALUES (@ID,@ImagenUrl1 ), (@ID,@ImagenUrl2 ), (@ID,@ImagenUrl3 )COMMIT;");
+                string consulta = @"BEGIN TRANSACTION; INSERT INTO ARTICULOS (Codigo, Nombre, Descripcion, IdMarca, IdCategoria, Precio) VALUES (@Codigo, @Nombre, @Descripcion, @IdMarca, @IdCategoria, @Precio); DECLARE @IdArticulo INT = SCOPE_IDENTITY(); INSERT INTO IMAGENES (IdArticulo, ImagenUrl) VALUES (@IdArticulo, @ImagenUrl1); INSERT INTO IMAGENES (IdArticulo, ImagenUrl) VALUES (@IdArticulo, @ImagenUrl2); INSERT INTO IMAGENES (IdArticulo, ImagenUrl) VALUES (@IdArticulo, @ImagenUrl3); COMMIT TRANSACTION; ";
+
+                datos.setearConsulta(consulta);
+
+                // Parámetros del artículo
                 datos.setearParametro("@Codigo", nuevo.Codigo);
                 datos.setearParametro("@Nombre", nuevo.Nombre);
                 datos.setearParametro("@Descripcion", nuevo.Descripcion);
@@ -63,25 +67,21 @@ namespace Negocio
                 datos.setearParametro("@IdCategoria", nuevo.Categoria.Id);
                 datos.setearParametro("@Precio", nuevo.Precio);
 
-                //esto se puede mejorar, solo es para probar
-
-                datos.setearParametro("@ImagenUrl1", nuevo.Imagenes[0].Url);
-                datos.setearParametro("@ImagenUrl2", nuevo.Imagenes[1].Url);
-                datos.setearParametro("@ImagenUrl3", nuevo.Imagenes[2].Url);
+                // Parámetros de las 3 imágenes
+                datos.setearParametro("@ImagenUrl1", nuevo.Imagenes.Count > 0 ? nuevo.Imagenes[0].Url : "");
+                datos.setearParametro("@ImagenUrl2", nuevo.Imagenes.Count > 1 ? nuevo.Imagenes[1].Url : "");
+                datos.setearParametro("@ImagenUrl3", nuevo.Imagenes.Count > 2 ? nuevo.Imagenes[2].Url : "");
 
                 datos.ejecutarAccion();
-
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
             finally
             {
                 datos.cerrarConexion();
             }
-
         }
         public void Modificar(Articulo art)
         {
