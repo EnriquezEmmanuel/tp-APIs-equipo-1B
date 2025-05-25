@@ -116,7 +116,7 @@ namespace Negocio
             }
             catch (Exception ex)
             { throw ex; }
-            //finally { datosModificados.cerrarConexion(); }
+            finally { datosModificados.cerrarConexion(); }
 
         }
         public void Eliminar(int Art)
