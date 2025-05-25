@@ -39,15 +39,10 @@ namespace Negocio
 
                 return lista;
             }
-            catch (Exception ex)
-            {
 
-                throw ex;
-            }
-            finally
-            {
-                datos.cerrarConexion();
-            }
+            catch (Exception ex) { throw ex; }
+
+            finally { datos.cerrarConexion(); }
         }
         public void agregar(Articulo nuevo)
         {
@@ -74,14 +69,10 @@ namespace Negocio
 
                 datos.ejecutarAccion();
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                datos.cerrarConexion();
-            }
+
+            catch (Exception ex) { throw ex; }
+
+            finally { datos.cerrarConexion(); }
         }
         public void Modificar(Articulo art)
         {
@@ -127,6 +118,20 @@ namespace Negocio
             { throw ex; }
             //finally { datosModificados.cerrarConexion(); }
 
+        }
+        public void Eliminar(int Art)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("BEGIN TRANSACTION BEGIN TRY DELETE FROM IMAGENES WHERE IdArticulo = @id DELETE FROM ARTICULOS WHERE id = @id COMMIT END TRY BEGIN CATCH ROLLBACK END CATCH");
+                datos.setearParametro("@id", Art);
+                datos.ejecutarAccion();
+            }
+
+            catch (Exception ex) { throw ex; }
+
+            finally { datos.cerrarConexion(); }
         }
 
     }

@@ -7,7 +7,6 @@ using System.Web.Http;
 using APIs.Models;
 using Dominio;
 using Negocio;
-//using APIs.Models;
 
 namespace APIs.Controllers
 {
@@ -54,6 +53,8 @@ namespace APIs.Controllers
         // DELETE: api/Articulo/5
         public void Delete(int id)
         {
+            ArticuloNegocio negocio = new ArticuloNegocio();
+            negocio.Eliminar(id);
         }
     }
 }
