@@ -21,10 +21,14 @@ namespace APIs.Controllers
         }
 
         // GET: api/Articulo/5
-        public string Get(int id)
+        public Articulo Get(int id)
         {
-            return "value";
+            ArticuloNegocio negocio = new ArticuloNegocio();
+            List<Articulo> productos = negocio.lista();
+
+            return productos.Find(x => x.Id == id);
         }
+
 
         // POST: api/Articulo
         public void Post([FromBody] ArticuloDto articuloDto)
