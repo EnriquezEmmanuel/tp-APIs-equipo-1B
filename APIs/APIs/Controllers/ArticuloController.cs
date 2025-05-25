@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using APIs.Models;
 using Dominio;
 using Negocio;
 
@@ -22,22 +23,52 @@ namespace APIs.Controllers
         // GET: api/Articulo/5
         public string Get(int id)
         {
+            
             return "value";
         }
 
         // POST: api/Articulo
-        public void Post([FromBody]string value)
+        public void Post([FromBody] ArticuloDto articuloDto)
         {
+            ArticuloNegocio negocio = new ArticuloNegocio();
+            Articulo nuevo = new Articulo();
+
+
+            nuevo.Codigo = articuloDto.Codigo;
+            nuevo.Nombre = articuloDto.Nombre;
+            nuevo.Descripcion = articuloDto.Descripcion;
+            nuevo.Marca = new Marca { Id = articuloDto.IdMarca };
+            nuevo.Categoria = new Categoria { Id = articuloDto.IdCategoria };
+            nuevo.Precio = articuloDto.Precio;
+            nuevo.Imagenes = articuloDto.Imagenes;
+            
+            negocio.agregar(nuevo);
+
         }
 
         // PUT: api/Articulo/5
-        public void Put(int id, [FromBody]string value)
+        public void Put(int id, [FromBody]ArticuloDto articuloDto)
         {
+            ArticuloNegocio negocio = new ArticuloNegocio();
+            Articulo nuevo = new Articulo();
+
+            nuevo.Codigo = articuloDto.Codigo;
+            nuevo.Nombre = articuloDto.Nombre;
+            nuevo.Descripcion = articuloDto.Descripcion;
+            nuevo.Marca = new Marca { Id = articuloDto.IdMarca };
+            nuevo.Categoria = new Categoria { Id = articuloDto.IdCategoria };
+            nuevo.Precio = articuloDto.Precio;
+            nuevo.Imagenes = articuloDto.Imagenes;
+            nuevo.Id = id;
+
+            negocio.Modificar(nuevo);
         }
 
         // DELETE: api/Articulo/5
         public void Delete(int id)
         {
+            ArticuloNegocio negocio = new ArticuloNegocio();
+            negocio.Eliminar(id);
         }
     }
 }
