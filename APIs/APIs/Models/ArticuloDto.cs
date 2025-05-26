@@ -16,7 +16,5 @@ namespace APIs.Models
         public int IdCategoria { get; set; }
         public decimal Precio { get; set; }
 
-        // Nueva propiedad: Lista de imágenes asociadas
-        public List<Imagen> Imagenes { get; set; } = new List<Imagen>();
     }
 }

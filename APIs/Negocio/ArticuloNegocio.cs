@@ -62,10 +62,6 @@ namespace Negocio
                 datos.setearParametro("@IdCategoria", nuevo.Categoria.Id);
                 datos.setearParametro("@Precio", nuevo.Precio);
 
-                // Parámetros de las 3 imágenes
-                datos.setearParametro("@ImagenUrl1", nuevo.Imagenes.Count > 0 ? nuevo.Imagenes[0].Url : "");
-                datos.setearParametro("@ImagenUrl2", nuevo.Imagenes.Count > 1 ? nuevo.Imagenes[1].Url : "");
-                datos.setearParametro("@ImagenUrl3", nuevo.Imagenes.Count > 2 ? nuevo.Imagenes[2].Url : "");
 
                 datos.ejecutarAccion();
             }
@@ -79,7 +75,7 @@ namespace Negocio
             AccesoDatos datosModificados = new AccesoDatos();
             try
             {
-
+                datosModificados.setearConsulta("UPDATE ARTICULOS SET Codigo=@cod, Nombre=@nom, Descripcion=@desc, IdMarca=@Mrca, IdCategoria=@Ctgria, Precio=@Prec WHERE Id=@id");
                 datosModificados.setearParametro("@id", art.Id);
                 datosModificados.setearParametro("@cod", art.Codigo);
                 datosModificados.setearParametro("@nom", art.Nombre);
@@ -87,29 +83,6 @@ namespace Negocio
                 datosModificados.setearParametro("@Mrca", art.Marca.Id);
                 datosModificados.setearParametro("@Ctgria", art.Categoria.Id);
                 datosModificados.setearParametro("@Prec", art.Precio);
-                //datosModificados.setearParametro("@img", art.UrlImagen);
-
-                datosModificados.setearParametro("@img1", art.Imagenes[0].Url);
-                datosModificados.setearParametro("@img2", art.Imagenes[1].Url);
-                datosModificados.setearParametro("@img3", art.Imagenes[2].Url);
-
-                datosModificados.setearConsulta("UPDATE IMAGENES SET ImagenUrl=@img1 WHERE Id=( SELECT MIN(Id) FROM IMAGENES WHERE IdArticulo =@id)");
-                datosModificados.ejecutarAccion();
-                datosModificados.cerrarConexion();
-                datosModificados.setearConsulta("UPDATE IMAGENES SET ImagenUrl=@img2 WHERE Id=( SELECT MIN(Id)+1 FROM IMAGENES WHERE IdArticulo =@id)");
-                datosModificados.ejecutarAccion();
-                datosModificados.cerrarConexion();
-                datosModificados.setearConsulta("UPDATE IMAGENES SET ImagenUrl=@img3 WHERE Id=( SELECT MIN(Id)+2 FROM IMAGENES WHERE IdArticulo =@id)");
-                datosModificados.ejecutarAccion();
-                datosModificados.cerrarConexion();
-
-                datosModificados.setearConsulta("UPDATE ARTICULOS SET IdMarca = @Mrca WHERE Id = @id");
-                datosModificados.ejecutarAccion();
-                datosModificados.cerrarConexion();
-                datosModificados.setearConsulta("UPDATE ARTICULOS SET IdCategoria = @Ctgria WHERE Id = @id");
-                datosModificados.ejecutarAccion();
-                datosModificados.cerrarConexion();
-                datosModificados.setearConsulta("UPDATE ARTICULOS SET Codigo=@cod, Nombre=@nom, Descripcion=@desc, Precio=@Prec WHERE Id=@id");
                 datosModificados.ejecutarAccion();
                 datosModificados.cerrarConexion();
 

@@ -9,9 +9,7 @@ using Dominio;
 using Negocio;
 using System.Text.RegularExpressions;
 
-
 namespace APIs.Controllers
-
 {
     public class ArticuloController : ApiController
     {
@@ -44,7 +42,7 @@ namespace APIs.Controllers
                 /////////validaciones de marca, categoría y cantidad minima de imágenes/////////
                 MarcaNegocio mrcaNeg = new MarcaNegocio();
 
-                Marca mrca = mrcaNeg.listar().Find(x=> x.Id == articuloDto.IdMarca);
+                Marca mrca = mrcaNeg.listar().Find(x => x.Id == articuloDto.IdMarca);
                 if (mrca == null)
                     return Request.CreateResponse(HttpStatusCode.BadRequest, "La marca no existe.");
 
@@ -54,13 +52,10 @@ namespace APIs.Controllers
                 if (cat == null)
                     return Request.CreateResponse(HttpStatusCode.BadRequest, "La categoría no existe.");
 
-                if( articuloDto.Imagenes.Count()== 0 )
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, "No se cargó ninguna imagen.");
-
-                if ( 
+                if (
                     articuloDto.Codigo == "" ||
                     articuloDto.Codigo == null ||
-                    articuloDto.Nombre =="" ||
+                    articuloDto.Nombre == "" ||
                     articuloDto.Nombre == null ||
                     articuloDto.Descripcion == "" ||
                     articuloDto.Descripcion == null
@@ -71,7 +66,7 @@ namespace APIs.Controllers
 
                 string NoNumero = @"^\d+$";                        //Defino expresión regular @" expresión "
                 Regex regex = new Regex(NoNumero);                  //crea el objeto verificador---- usar: using System.Text.RegularExpressions;
-                if ( regex.IsMatch(articuloDto.Precio.ToString()) )   // Verifica la "variable"
+                if (regex.IsMatch(articuloDto.Precio.ToString()))   // Verifica la "variable"
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest, "El precio debe contener un valor numérico.");
                 }
@@ -83,22 +78,27 @@ namespace APIs.Controllers
                 nuevo.Marca = new Marca { Id = articuloDto.IdMarca };
                 nuevo.Categoria = new Categoria { Id = articuloDto.IdCategoria };
                 nuevo.Precio = articuloDto.Precio;
-                nuevo.Imagenes = articuloDto.Imagenes;
 
                 negocio.agregar(nuevo);
-                return Request.CreateResponse(HttpStatusCode.OK, "Artículo agregado correctamente."); 
+                return Request.CreateResponse(HttpStatusCode.OK, "Artículo agregado correctamente.");
             }
             catch (Exception)
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, "Ocurrió un error inesperado.");
             }
-            
-            
+
+
 
         }
+        public void Post(int id, [FromBody]ImagenDto dto)
+        {
+            ImagenNegocio negocio = new ImagenNegocio();
+            negocio.agregarImagen(id, dto.Url);
+        }
+
 
         // PUT: api/Articulo/5
-        public HttpResponseMessage Put(int id, [FromBody]ArticuloDto articuloDto)
+        public HttpResponseMessage Put(int id, [FromBody] ArticuloDto articuloDto)
         {
             try
             {
@@ -111,18 +111,17 @@ namespace APIs.Controllers
                 nuevo.Marca = new Marca { Id = articuloDto.IdMarca };
                 nuevo.Categoria = new Categoria { Id = articuloDto.IdCategoria };
                 nuevo.Precio = articuloDto.Precio;
-                nuevo.Imagenes = articuloDto.Imagenes;
                 nuevo.Id = id;
 
                 negocio.Modificar(nuevo);
-                return Request.CreateResponse(HttpStatusCode.OK, "Modificación correcta."); 
+                return Request.CreateResponse(HttpStatusCode.OK, "Modificación correcta.");
             }
             catch (Exception)
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, "Ocurrió un error inesperado.");
             }
 
-            
+
         }
 
         // DELETE: api/Articulo/5
@@ -133,15 +132,14 @@ namespace APIs.Controllers
                 ArticuloNegocio negocio = new ArticuloNegocio();
                 negocio.Eliminar(id);
 
-                return Request.CreateResponse(HttpStatusCode.OK, "Eliminación correcta."); 
+                return Request.CreateResponse(HttpStatusCode.OK, "Eliminación correcta.");
             }
             catch (Exception)
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, "Ocurrió un error inesperado.");
             }
 
-            
+
         }
     }
-
 }
