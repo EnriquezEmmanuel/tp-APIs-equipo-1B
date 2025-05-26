@@ -90,10 +90,21 @@ namespace APIs.Controllers
 
 
         }
-        public void Post(int id, [FromBody] ImagenDto dto)
+        public HttpResponseMessage Post(int id, [FromBody] ImagenDto dto)
         {
-            ImagenNegocio negocio = new ImagenNegocio();
-            negocio.agregarImagen(id, dto.Url);
+            try
+            {
+                ImagenNegocio negocio = new ImagenNegocio();
+                if (dto.Url == "" || dto.Url == null )
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "No contiene una url.");
+                negocio.agregarImagen(id, dto.Url);
+                return Request.CreateResponse(HttpStatusCode.OK, "Imagen agregado correctamente.");
+            }
+            catch (Exception)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, "Ocurrió un error inesperado.");
+            }
+            
         }
 
 
