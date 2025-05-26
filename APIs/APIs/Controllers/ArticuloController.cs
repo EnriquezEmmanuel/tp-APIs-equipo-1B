@@ -44,7 +44,7 @@ namespace APIs.Controllers
                 /////////validaciones de marca, categoría y cantidad minima de imágenes/////////
                 MarcaNegocio mrcaNeg = new MarcaNegocio();
 
-                Marca mrca = mrcaNeg.listar().Find(x=> x.Id == articuloDto.IdMarca);
+                Marca mrca = mrcaNeg.listar().Find(x => x.Id == articuloDto.IdMarca);
                 if (mrca == null)
                     return Request.CreateResponse(HttpStatusCode.BadRequest, "La marca no existe.");
 
@@ -54,13 +54,13 @@ namespace APIs.Controllers
                 if (cat == null)
                     return Request.CreateResponse(HttpStatusCode.BadRequest, "La categoría no existe.");
 
-                if( articuloDto.Imagenes.Count()== 0 )
+                if (articuloDto.Imagenes.Count() == 0)
                     return Request.CreateResponse(HttpStatusCode.BadRequest, "No se cargó ninguna imagen.");
 
-                if ( 
+                if (
                     articuloDto.Codigo == "" ||
                     articuloDto.Codigo == null ||
-                    articuloDto.Nombre =="" ||
+                    articuloDto.Nombre == "" ||
                     articuloDto.Nombre == null ||
                     articuloDto.Descripcion == "" ||
                     articuloDto.Descripcion == null
@@ -69,9 +69,9 @@ namespace APIs.Controllers
                     return Request.CreateResponse(HttpStatusCode.BadRequest, "Se debe proporcionar obligatoriamente un código, nombre y descripción");
                 }
 
-                string NoNumero = @"^\d+$";                        //Defino expresión regular @" expresión "
-                Regex regex = new Regex(NoNumero);                  //crea el objeto verificador---- usar: using System.Text.RegularExpressions;
-                if ( regex.IsMatch(articuloDto.Precio.ToString()) )   // Verifica la "variable"
+                string NoNumero = @"^\d+$";
+                Regex regex = new Regex(NoNumero);
+                if (regex.IsMatch(articuloDto.Precio.ToString()))
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest, "El precio debe contener un valor numérico.");
                 }
@@ -104,6 +104,42 @@ namespace APIs.Controllers
             {
                 ArticuloNegocio negocio = new ArticuloNegocio();
                 Articulo nuevo = new Articulo();
+
+                /////////validaciones de marca, categoría y cantidad minima de imágenes/////////
+                MarcaNegocio mrcaNeg = new MarcaNegocio();
+
+                Marca mrca = mrcaNeg.listar().Find(x => x.Id == articuloDto.IdMarca);
+                if (mrca == null)
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "La marca no existe.");
+
+                CategoriaNegocio catNeg = new CategoriaNegocio();
+
+                Categoria cat = catNeg.listar().Find(x => x.Id == articuloDto.IdCategoria);
+                if (cat == null)
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "La categoría no existe.");
+
+                if (articuloDto.Imagenes.Count() == 0)
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "No se cargó ninguna imagen.");
+
+                if (
+                    articuloDto.Codigo == "" ||
+                    articuloDto.Codigo == null ||
+                    articuloDto.Nombre == "" ||
+                    articuloDto.Nombre == null ||
+                    articuloDto.Descripcion == "" ||
+                    articuloDto.Descripcion == null
+                    )
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Se debe proporcionar obligatoriamente un código, nombre y descripción");
+                }
+
+                string NoNumero = @"^\d+$";                        
+                Regex regex = new Regex(NoNumero);                 
+                if ( regex.IsMatch(articuloDto.Precio.ToString()) )  
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "El precio debe contener un valor numérico.");
+                }
+                ///////////////////////////////////////////////////////
 
                 nuevo.Codigo = articuloDto.Codigo;
                 nuevo.Nombre = articuloDto.Nombre;
@@ -142,6 +178,10 @@ namespace APIs.Controllers
 
             
         }
+
+         
+
     }
+    
 
 }
