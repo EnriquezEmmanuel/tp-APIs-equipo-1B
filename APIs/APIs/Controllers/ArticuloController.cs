@@ -7,8 +7,11 @@ using System.Web.Http;
 using APIs.Models;
 using Dominio;
 using Negocio;
+using System.Text.RegularExpressions;
+
 
 namespace APIs.Controllers
+
 {
     public class ArticuloController : ApiController
     {
@@ -31,47 +34,114 @@ namespace APIs.Controllers
 
 
         // POST: api/Articulo
-        public void Post([FromBody] ArticuloDto articuloDto)
+        public HttpResponseMessage Post([FromBody] ArticuloDto articuloDto)
         {
-            ArticuloNegocio negocio = new ArticuloNegocio();
-            Articulo nuevo = new Articulo();
+            try
+            {
+                ArticuloNegocio negocio = new ArticuloNegocio();
+                Articulo nuevo = new Articulo();
 
+                /////////validaciones de marca, categoría y cantidad minima de imágenes/////////
+                MarcaNegocio mrcaNeg = new MarcaNegocio();
 
-            nuevo.Codigo = articuloDto.Codigo;
-            nuevo.Nombre = articuloDto.Nombre;
-            nuevo.Descripcion = articuloDto.Descripcion;
-            nuevo.Marca = new Marca { Id = articuloDto.IdMarca };
-            nuevo.Categoria = new Categoria { Id = articuloDto.IdCategoria };
-            nuevo.Precio = articuloDto.Precio;
-            nuevo.Imagenes = articuloDto.Imagenes;
+                Marca mrca = mrcaNeg.listar().Find(x=> x.Id == articuloDto.IdMarca);
+                if (mrca == null)
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "La marca no existe.");
+
+                CategoriaNegocio catNeg = new CategoriaNegocio();
+
+                Categoria cat = catNeg.listar().Find(x => x.Id == articuloDto.IdCategoria);
+                if (cat == null)
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "La categoría no existe.");
+
+                if( articuloDto.Imagenes.Count()== 0 )
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "No se cargó ninguna imagen.");
+
+                if ( 
+                    articuloDto.Codigo == "" ||
+                    articuloDto.Codigo == null ||
+                    articuloDto.Nombre =="" ||
+                    articuloDto.Nombre == null ||
+                    articuloDto.Descripcion == "" ||
+                    articuloDto.Descripcion == null
+                    )
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "Se debe proporcionar obligatoriamente un código, nombre y descripción");
+                }
+
+                string NoNumero = @"^\d+$";                        //Defino expresión regular @" expresión "
+                Regex regex = new Regex(NoNumero);                  //crea el objeto verificador---- usar: using System.Text.RegularExpressions;
+                if ( regex.IsMatch(articuloDto.Precio.ToString()) )   // Verifica la "variable"
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, "El precio debe contener un valor numérico.");
+                }
+                ///////////////////////////////////////////////////////
+
+                nuevo.Codigo = articuloDto.Codigo;
+                nuevo.Nombre = articuloDto.Nombre;
+                nuevo.Descripcion = articuloDto.Descripcion;
+                nuevo.Marca = new Marca { Id = articuloDto.IdMarca };
+                nuevo.Categoria = new Categoria { Id = articuloDto.IdCategoria };
+                nuevo.Precio = articuloDto.Precio;
+                nuevo.Imagenes = articuloDto.Imagenes;
+
+                negocio.agregar(nuevo);
+                return Request.CreateResponse(HttpStatusCode.OK, "Artículo agregado correctamente."); 
+            }
+            catch (Exception)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, "Ocurrió un error inesperado.");
+            }
             
-            negocio.agregar(nuevo);
+            
 
         }
 
         // PUT: api/Articulo/5
-        public void Put(int id, [FromBody]ArticuloDto articuloDto)
+        public HttpResponseMessage Put(int id, [FromBody]ArticuloDto articuloDto)
         {
-            ArticuloNegocio negocio = new ArticuloNegocio();
-            Articulo nuevo = new Articulo();
+            try
+            {
+                ArticuloNegocio negocio = new ArticuloNegocio();
+                Articulo nuevo = new Articulo();
 
-            nuevo.Codigo = articuloDto.Codigo;
-            nuevo.Nombre = articuloDto.Nombre;
-            nuevo.Descripcion = articuloDto.Descripcion;
-            nuevo.Marca = new Marca { Id = articuloDto.IdMarca };
-            nuevo.Categoria = new Categoria { Id = articuloDto.IdCategoria };
-            nuevo.Precio = articuloDto.Precio;
-            nuevo.Imagenes = articuloDto.Imagenes;
-            nuevo.Id = id;
+                nuevo.Codigo = articuloDto.Codigo;
+                nuevo.Nombre = articuloDto.Nombre;
+                nuevo.Descripcion = articuloDto.Descripcion;
+                nuevo.Marca = new Marca { Id = articuloDto.IdMarca };
+                nuevo.Categoria = new Categoria { Id = articuloDto.IdCategoria };
+                nuevo.Precio = articuloDto.Precio;
+                nuevo.Imagenes = articuloDto.Imagenes;
+                nuevo.Id = id;
 
-            negocio.Modificar(nuevo);
+                negocio.Modificar(nuevo);
+                return Request.CreateResponse(HttpStatusCode.OK, "Modificación correcta."); 
+            }
+            catch (Exception)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, "Ocurrió un error inesperado.");
+            }
+
+            
         }
 
         // DELETE: api/Articulo/5
-        public void Delete(int id)
+        public HttpResponseMessage Delete(int id)
         {
-            ArticuloNegocio negocio = new ArticuloNegocio();
-            negocio.Eliminar(id);
+            try
+            {
+                ArticuloNegocio negocio = new ArticuloNegocio();
+                negocio.Eliminar(id);
+
+                return Request.CreateResponse(HttpStatusCode.OK, "Eliminación correcta."); 
+            }
+            catch (Exception)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, "Ocurrió un error inesperado.");
+            }
+
+            
         }
     }
+
 }
