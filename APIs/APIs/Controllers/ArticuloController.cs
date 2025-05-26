@@ -52,12 +52,6 @@ namespace APIs.Controllers
                 if (cat == null)
                     return Request.CreateResponse(HttpStatusCode.BadRequest, "La categoría no existe.");
 
-<<<<<<< HEAD
-=======
-                if (articuloDto.Imagenes.Count() == 0)
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, "No se cargó ninguna imagen.");
-
->>>>>>> d6c5a4d613deb4c1ab39fd5816d13a17f24247ee
                 if (
                     articuloDto.Codigo == "" ||
                     articuloDto.Codigo == null ||
@@ -70,15 +64,9 @@ namespace APIs.Controllers
                     return Request.CreateResponse(HttpStatusCode.BadRequest, "Se debe proporcionar obligatoriamente un código, nombre y descripción");
                 }
 
-<<<<<<< HEAD
-                string NoNumero = @"^\d+$";                        //Defino expresión regular @" expresión "
-                Regex regex = new Regex(NoNumero);                  //crea el objeto verificador---- usar: using System.Text.RegularExpressions;
-                if (regex.IsMatch(articuloDto.Precio.ToString()))   // Verifica la "variable"
-=======
                 string NoNumero = @"^\d+$";
                 Regex regex = new Regex(NoNumero);
                 if (regex.IsMatch(articuloDto.Precio.ToString()))
->>>>>>> d6c5a4d613deb4c1ab39fd5816d13a17f24247ee
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest, "El precio debe contener un valor numérico.");
                 }
@@ -102,7 +90,7 @@ namespace APIs.Controllers
 
 
         }
-        public void Post(int id, [FromBody]ImagenDto dto)
+        public void Post(int id, [FromBody] ImagenDto dto)
         {
             ImagenNegocio negocio = new ImagenNegocio();
             negocio.agregarImagen(id, dto.Url);
@@ -117,7 +105,6 @@ namespace APIs.Controllers
                 ArticuloNegocio negocio = new ArticuloNegocio();
                 Articulo nuevo = new Articulo();
 
-                /////////validaciones de marca, categoría y cantidad minima de imágenes/////////
                 MarcaNegocio mrcaNeg = new MarcaNegocio();
 
                 Marca mrca = mrcaNeg.listar().Find(x => x.Id == articuloDto.IdMarca);
@@ -129,9 +116,6 @@ namespace APIs.Controllers
                 Categoria cat = catNeg.listar().Find(x => x.Id == articuloDto.IdCategoria);
                 if (cat == null)
                     return Request.CreateResponse(HttpStatusCode.BadRequest, "La categoría no existe.");
-
-                if (articuloDto.Imagenes.Count() == 0)
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, "No se cargó ninguna imagen.");
 
                 if (
                     articuloDto.Codigo == "" ||
@@ -145,13 +129,12 @@ namespace APIs.Controllers
                     return Request.CreateResponse(HttpStatusCode.BadRequest, "Se debe proporcionar obligatoriamente un código, nombre y descripción");
                 }
 
-                string NoNumero = @"^\d+$";                        
-                Regex regex = new Regex(NoNumero);                 
-                if ( regex.IsMatch(articuloDto.Precio.ToString()) )  
+                string NoNumero = @"^\d+$";
+                Regex regex = new Regex(NoNumero);
+                if (regex.IsMatch(articuloDto.Precio.ToString()))
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest, "El precio debe contener un valor numérico.");
                 }
-                ///////////////////////////////////////////////////////
 
                 nuevo.Codigo = articuloDto.Codigo;
                 nuevo.Nombre = articuloDto.Nombre;
@@ -189,13 +172,5 @@ namespace APIs.Controllers
 
 
         }
-
-         
-
     }
-<<<<<<< HEAD
-=======
-    
-
->>>>>>> d6c5a4d613deb4c1ab39fd5816d13a17f24247ee
 }

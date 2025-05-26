@@ -36,6 +36,17 @@ namespace Negocio
                     aux.Precio = (decimal)datos.Lector["Precio"];
                     lista.Add(aux);
                 }
+                ImagenNegocio imagenNegocio = new ImagenNegocio();
+                var imagenesPorArticulo = imagenNegocio.lista();
+
+                // Asociar las imágenes a cada artículo
+                foreach (var articulo in lista)
+                {
+                    if (imagenesPorArticulo.ContainsKey(articulo.Id))
+                    {
+                        articulo.Imagenes = imagenesPorArticulo[articulo.Id];
+                    }
+                }
 
                 return lista;
             }
